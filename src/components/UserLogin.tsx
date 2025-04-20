@@ -5,10 +5,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { login } from "@/api/accountService";
+import { Link, useNavigate } from "react-router-dom";
 
 export function UserLogin() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -18,6 +20,7 @@ export function UserLogin() {
   }
   const submitForm = async (email: string, password: string) => {
     await login(email, password);
+    navigate('/home')
   }
 
 
@@ -105,9 +108,9 @@ export function UserLogin() {
         {/* Register Prompt */}
         <h4 className="text-sm text-muted-foreground text-center">
           Don’t have an account?
-          <a href="/register" className="text-orange-500 underline ml-1">
+          <Link to="/register" className="text-orange-500 underline ml-1">
             Register here
-          </a>
+          </Link>
         </h4>
       </div>
     </div>
