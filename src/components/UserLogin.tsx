@@ -28,7 +28,7 @@ export function UserLogin() {
     <div className="relative w-full min-h-screen flex justify-center items-center bg-white px-4 sm:px-6 lg:px-8">
       {/* Logo positioned top-left */}
       <div className="absolute top-4 left-4 sm:top-6 sm:left-6 w-24 sm:w-32">
-        <a href="/home">
+        <a href="/">
           <img
             src="src/assets/rosterU-2.png"
             className="object-contain cursor-pointer"

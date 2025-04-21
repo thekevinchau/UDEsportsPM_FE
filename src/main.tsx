@@ -9,7 +9,7 @@ import RegisterPage from './pages/RegisterPage.tsx'
 import HomePage from './pages/HomePage.tsx'
 
 const router = createBrowserRouter([
-  { path: "/home", element: <HomePage/>},
+  { path: "/", element: <HomePage/>},
   { path: "/login", element: <LoginPage/>},
   { path: "/register", element: <RegisterPage/>},
   { path: "/*", element: <NotFound/>}
