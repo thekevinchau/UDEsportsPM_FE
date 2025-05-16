@@ -1,28 +1,48 @@
 import { JSX } from "react";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 export default function NavBar(): JSX.Element {
   return (
-    <div className="bg-white w-screen h-36 flex justify-evenly items-center px-6 shadow">
-      <div className="h-full w-screen flex items-center">
-        <img
-          src="src/assets/rosterU-no-slogan.png"
-          className="w-2/5 object-contain h-full"
-          alt="RosterU Logo"
-        />
-      </div>
+    <header className="fixed top-0 z-50 w-full backdrop-blur-md bg-black/70 border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between text-white">
+        {/* Logo */}
+        <div className="text-xl font-bold tracking-tight">
+          <Link to="/" className="hover:opacity-90 transition">
+            Roster<span className="text-blue-500">U</span>
+          </Link>
+        </div>
 
-      {/* Right side of navbar */}
-      <div className="flex justify-evenly items-center w-3/4">
-        <p>Features</p>
-        <p>Pricing</p>
-        <p>Contact</p>
+        {/* Navigation Links */}
+        <nav className="hidden md:flex gap-8 text-sm font-medium items-center">
+          <Link to="/features" className="hover:text-blue-400 transition">
+            Features
+          </Link>
+          <Link to="/pricing" className="hover:text-blue-400 transition">
+            Pricing
+          </Link>
+          <Link to="/contact" className="hover:text-blue-400 transition">
+            Contact
+          </Link>
+        </nav>
 
-        <div className="text-white">
-          <Button className="mr-3 bg-white text-black border border-orange-500">Log In</Button>
-          <Button className="text-black bg-orange-400">Demo</Button>
+        {/* CTA Buttons */}
+        <div className="flex gap-3">
+          <Button
+            asChild
+            variant="outline"
+            className="border-gray-500 text-white hover:bg-white hover:text-black transition duration-300 cursor-pointer"
+          >
+            <Link to="/login"> Log In</Link>
+          </Button>
+          <Button
+            asChild
+            className="bg-blue-600 hover:bg-blue-500 text-white transition"
+          >
+            <Link to="/demo">Demo</Link>
+          </Button>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
