@@ -1,9 +1,11 @@
+
 import NavBar from "@/components/NavBar";
 import { JSX } from "react";
 import { Button } from "@/components/ui/button"; // Assuming shadcn/ui or similar
 import { Link } from "react-router-dom";
 
 export default function HomePage(): JSX.Element {
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0f0f10] to-[#1a1a1d] text-white">
       <NavBar />
