@@ -1,1 +1,1 @@
-export const serverURL: string = `http://localhost:8080`
+export const serverURL: string = `http://localhost:8080/api`

@@ -4,39 +4,45 @@ import { Link } from "react-router-dom";
 
 export default function NavBar(): JSX.Element {
   return (
-    <div className="bg-gray-200 w-screen h-20 flex justify-evenly items-center px-6 shadow pl-40 pr-40">
-      <div className="h-full w-screen pl-20 flex items-center">
-        {/*}
-        <img
-          src="src/assets/rosterU-no-slogan.png"
-          className="max-w-1/5 object-contain min-h-4/5 max-h-1/4"
-          alt="RosterU Logo"
-        />
-        {*/}
-        <h1 className="text-orange-400 text-3xl">RosterU</h1>
-      </div>
+    <header className="fixed top-0 z-50 w-full backdrop-blur-md bg-black/70 border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between text-white">
+        {/* Logo */}
+        <div className="text-xl font-bold tracking-tight">
+          <Link to="/" className="hover:opacity-90 transition">
+            Roster<span className="text-blue-500">U</span>
+          </Link>
+        </div>
 
-      {/* Right side of navbar */}
-      <div className="flex items-center w-3/4 text-2xl h-full">
-        <Link to="/features" className="border h-full w-1/6 text-center">
-          Features
-        </Link>
-        <Link to="/pricing" className="border h-full w-1/6 text-center">
-          Pricing
-        </Link>
-        <Link to="/contact" className="border h-full w-1/6 text-center">
-          Contact
-        </Link>
+        {/* Navigation Links */}
+        <nav className="hidden md:flex gap-8 text-sm font-medium items-center">
+          <Link to="/features" className="hover:text-blue-400 transition">
+            Features
+          </Link>
+          <Link to="/pricing" className="hover:text-blue-400 transition">
+            Pricing
+          </Link>
+          <Link to="/contact" className="hover:text-blue-400 transition">
+            Contact
+          </Link>
+        </nav>
 
-        <div className="text-white">
-          <Button className="mr-3 bg-white text-black border border-orange-500">
-            Log In
+        {/* CTA Buttons */}
+        <div className="flex gap-3">
+          <Button
+            asChild
+            variant="outline"
+            className="border-gray-500 text-white hover:bg-white hover:text-black transition duration-300 cursor-pointer"
+          >
+            <Link to="/login"> Log In</Link>
           </Button>
-          <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full shadow-md transition-all duration-300">
-  Try It Free
-</button>
+          <Button
+            asChild
+            className="bg-blue-600 hover:bg-blue-500 text-white transition"
+          >
+            <Link to="/demo">Demo</Link>
+          </Button>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

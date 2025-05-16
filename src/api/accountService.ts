@@ -25,6 +25,7 @@ export async function login(email: string, password: string): Promise<void> {
     const token = await response.text(); // Make sure this returns the JWT string or an object with it
     //const decoded: DecodedJWT = jwtDecode(token);
     localStorage.setItem("token", token);
+    console.log("Successful!")
   } catch (err) {
     console.error("Login error:", err);
   }
