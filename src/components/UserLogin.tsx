@@ -10,6 +10,8 @@ import { Link, useNavigate } from "react-router-dom";
 export function UserLogin() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorMsg, setErrorMsg] = useState<string>("");
+  const [visibleError, setVisibleError] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,8 +23,21 @@ export function UserLogin() {
   };
 
   const submitForm = async (email: string, password: string) => {
-    await login(email, password);
-    navigate("/");
+    const success = await login(email, password);
+    if (success === true) {
+      console.log(success);
+      setVisibleError(false);
+      navigate("/");
+    } else if (email === "") {
+      setErrorMsg("Please enter your email.");
+      setVisibleError(true);
+    } else if (password === "") {
+      setErrorMsg("Please enter your password.");
+      setVisibleError(true);
+    } else {
+      setErrorMsg("Invalid username or password.");
+      setVisibleError(true);
+    }
   };
 
   return (
@@ -94,8 +109,9 @@ export function UserLogin() {
 
           {/* Sign In Button */}
           <Button
-            className="w-full mt-2 bg-blue-600 text-white hover:bg-blue-500 transition"
+            className="w-full mt-1 bg-blue-600 text-white hover:bg-blue-500 transition"
             onClick={() => submitForm(email, password)}
+            disabled={email == "" || password == ""}
           >
             Sign In
           </Button>
@@ -108,6 +124,9 @@ export function UserLogin() {
             <FcGoogle size={20} />
             Sign in with Google
           </Button>
+          {visibleError == true ? (
+            <div className="text-white text-center">{errorMsg}</div>
+          ) : null}
         </div>
 
         {/* Registration Link */}

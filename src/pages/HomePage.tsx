@@ -18,9 +18,7 @@ export default function HomePage(): JSX.Element {
             Drive competition, track results, and unlock deep insights — all from a single, powerful platform built for collegiate teams and esports organizations.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-            <Button className="px-6 py-3 text-lg bg-blue-600 hover:bg-blue-500 transition">
-              Get Started
-            </Button>
+            <Link to="/register" className="px-6 py-1 text-lg bg-blue-600 hover:bg-blue-500 transition rounded-sm font-semibold">Get Started</Link>
             <Link to="/demo" className="px-6 py-1 flex items-center text-lg border border-gray-200 rounded-sm text-white hover:bg-white hover:text-black transition duration-300">Book A Demo</Link>
           </div>
         </div>

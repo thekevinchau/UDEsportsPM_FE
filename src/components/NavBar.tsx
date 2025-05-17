@@ -2,6 +2,8 @@ import { JSX } from "react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 
+const isLoggedIn: boolean = localStorage.getItem("loggedIn") === "true" ? true : false; 
+
 export default function NavBar(): JSX.Element {
   return (
     <header className="fixed top-0 z-50 w-full backdrop-blur-md bg-black/70 border-b border-white/10">

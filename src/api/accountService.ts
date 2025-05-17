@@ -8,7 +8,7 @@ export interface DecodedJWT {
   [key: string]: unknown; // For custom claims like "role", "email", etc.
 }
 
-export async function login(email: string, password: string): Promise<void> {
+export async function login(email: string, password: string): Promise<boolean> {
   try {
     const response = await fetch(`${serverURL}/users/login`, {
       method: "POST",
@@ -19,14 +19,17 @@ export async function login(email: string, password: string): Promise<void> {
     });
 
     if (!response.ok) {
-      throw new Error(`Login failed: ${response.status}`);
+      return false;  
     }
 
     const token = await response.text(); // Make sure this returns the JWT string or an object with it
-    //const decoded: DecodedJWT = jwtDecode(token);
+    const decoded: DecodedJWT = jwtDecode(token);
     localStorage.setItem("token", token);
-    console.log("Successful!")
+    localStorage.setItem("loggedIn", "true");
+    console.log(decoded)
+    return true;
   } catch (err) {
     console.error("Login error:", err);
+    return false;
   }
 }
