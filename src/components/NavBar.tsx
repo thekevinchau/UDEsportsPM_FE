@@ -1,10 +1,12 @@
 import { JSX } from "react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-
-const isLoggedIn: boolean = localStorage.getItem("loggedIn") === "true" ? true : false; 
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 export default function NavBar(): JSX.Element {
+  const user: string = useSelector((state: RootState) => state.auth.user);
+  const isLoggedIn: boolean = useSelector((state: RootState) => state.auth.isAuthenticated);
   return (
     <header className="fixed top-0 z-50 w-full backdrop-blur-md bg-black/70 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between text-white">
@@ -13,6 +15,10 @@ export default function NavBar(): JSX.Element {
           <Link to="/" className="hover:opacity-90 transition">
             Roster<span className="text-blue-500">U</span>
           </Link>
+        </div>
+        <div className="text-white">
+        {user}
+        {isLoggedIn ? "Logged in" : null}
         </div>
 
         {/* Navigation Links */}

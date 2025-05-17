@@ -6,6 +6,8 @@ import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { login } from "@/api/accountService";
 import { Link, useNavigate } from "react-router-dom";
+import {login as reduxLogin} from "../redux/authSlice"
+import { useDispatch } from "react-redux";
 
 export function UserLogin() {
   const [email, setEmail] = useState<string>("");
@@ -13,6 +15,7 @@ export function UserLogin() {
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [visibleError, setVisibleError] = useState<boolean>(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -24,16 +27,21 @@ export function UserLogin() {
 
   const submitForm = async (email: string, password: string) => {
     const success = await login(email, password);
+
     if (success === true) {
-      console.log(success);
       setVisibleError(false);
+      dispatch(reduxLogin({email: email}))
+      localStorage.setItem('auth', JSON.stringify({user: email, role: "ROLE_ADMIN", isAuthenticated: true}))
       navigate("/");
+
     } else if (email === "") {
       setErrorMsg("Please enter your email.");
       setVisibleError(true);
+
     } else if (password === "") {
       setErrorMsg("Please enter your password.");
       setVisibleError(true);
+
     } else {
       setErrorMsg("Invalid username or password.");
       setVisibleError(true);
