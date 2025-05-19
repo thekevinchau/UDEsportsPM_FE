@@ -31,7 +31,6 @@ export function UserLogin() {
     if (success === true) {
       setVisibleError(false);
       dispatch(reduxLogin({email: email}))
-      localStorage.setItem('auth', JSON.stringify({user: email, role: "ROLE_ADMIN", isAuthenticated: true}))
       navigate("/");
 
     } else if (email === "") {
