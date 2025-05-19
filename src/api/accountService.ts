@@ -1,5 +1,6 @@
 import { serverURL } from "@/config/config";
 import { jwtDecode } from "jwt-decode";
+import axios from 'axios';
 
 export interface DecodedJWT {
   sub: string;
@@ -7,6 +8,19 @@ export interface DecodedJWT {
   iat: number;
   [key: string]: unknown; // For custom claims like "role", "email", etc.
 }
+
+interface UserDTO {
+  email: string,
+  username: string
+}
+
+const userApi = axios.create({
+  baseURL: serverURL,
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
 
 export async function login(email: string, password: string): Promise<boolean> {
   try {
@@ -32,4 +46,19 @@ export async function login(email: string, password: string): Promise<boolean> {
     console.error("Login error:", err);
     return false;
   }
+}
+
+export async function register(email: string, username: string, password: string, fullName: string): Promise<UserDTO | string> {
+  try{
+    const response = await userApi.post('/users/register',{
+      username: username,
+      password: password,
+      fullName: fullName,
+      email: email
+    })
+    return response.data;
+  }catch(err){
+    console.error("Login error", err);
+  }
+  return "Failed to create user";
 }
