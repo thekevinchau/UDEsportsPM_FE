@@ -3,7 +3,11 @@ import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/redux/authSlice";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import {
+  MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowUp,
+} from "react-icons/md";
+import NavBarDropDown from "./NavBarDropDown";
 
 export default function NavBar(): JSX.Element {
   const [dropDownVisibility, setDropDownVisibility] = useState<boolean>(false);
@@ -54,7 +58,7 @@ export default function NavBar(): JSX.Element {
           {isAuthenticated ? (
             <Link
               to="/pricing"
-              className="flex items-center text-sm text-gray-500 font-semibold hover:opacity-60 transition duration-200"
+              className="flex items-center text-sm text-gray-500 font-semibold hover:opacity-60 transition duration-200 pr-2"
             >
               Launch RosterU
             </Link>
@@ -77,16 +81,35 @@ export default function NavBar(): JSX.Element {
           )}
 
           <Button className="border cursor-pointer mr-2">
-            <Link to="/contact" className="w-full h-full">Contact Us</Link>
+            <Link to="/contact" className="w-full h-full">
+              Contact Us
+            </Link>
           </Button>
 
-          <div className="flex items-center hover:cursor-pointer" onClick={() => console.log('Open panel')}>
-            <Button className="w-9.5 h-9.5 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center cursor-pointer hover:opacity-80">
-              KC
+          {isAuthenticated ? (
+            <div
+              className="flex items-center hover:cursor-pointer"
+              onClick={() => setDropDownVisibility(!dropDownVisibility)}
+            >
+              <Button className="w-9.5 h-9.5 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center cursor-pointer hover:opacity-80">
+                KC
+              </Button>
+              {dropDownVisibility ? (
+                <MdOutlineKeyboardArrowUp className="text-2xl" />
+              ) : (
+                <MdOutlineKeyboardArrowDown className="text-2xl" />
+              )}
+            </div>
+          ) : (
+            <Button
+              onClick={() => navigate("/login")}
+              className="border cursor-pointer"
+            >
+              Log In
             </Button>
-            <MdOutlineKeyboardArrowDown className="text-2xl"/>
-          </div>
+          )}
 
+          {dropDownVisibility ? <NavBarDropDown logout={handleLogout} /> : null}
         </div>
       </div>
     </header>
