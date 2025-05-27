@@ -6,16 +6,19 @@ import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { login } from "@/api/accountService";
 import { Link, useNavigate } from "react-router-dom";
-import {login as reduxLogin} from "../redux/authSlice"
+import { login as reduxLogin } from "../redux/authSlice";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/hooks";
 
 export function UserLogin() {
+  
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [visibleError, setVisibleError] = useState<boolean>(false);
-  const navigate = useNavigate();
+    const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -30,17 +33,14 @@ export function UserLogin() {
 
     if (success === true) {
       setVisibleError(false);
-      dispatch(reduxLogin({email: email}))
+      dispatch(reduxLogin({ email }));
       navigate("/");
-
     } else if (email === "") {
       setErrorMsg("Please enter your email.");
       setVisibleError(true);
-
     } else if (password === "") {
       setErrorMsg("Please enter your password.");
       setVisibleError(true);
-
     } else {
       setErrorMsg("Invalid username or password.");
       setVisibleError(true);
