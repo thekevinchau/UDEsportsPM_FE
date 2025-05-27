@@ -3,9 +3,10 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
-import { login } from "@/api/accountService";
+import { register} from "@/api/accountService";
 import { Link } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
+import { FcCheckmark } from "react-icons/fc";
 
 export function UserSignUp() {
   const [email, setEmail] = useState("");
@@ -46,17 +47,20 @@ export function UserSignUp() {
       console.log(isValidPassword(password));
       return;
     }
-    await login(email, password);
+    const user = register(email, username, password, firstName + " " + lastName);
+    console.log(user);
   };
-  //if the password length is greater than 0 and its less than 12, it should be red text
-  //if the password length is greater than 12 then it should be green text
-  //if not both cases, let it be gray
-  const validLengthColor =
-    password.length > 0 && password.length < 12
-      ? "text-red-500"
-      : password.length >= 12
-      ? "text-green-500"
-      : "text-gray-300";
+  //if the password length is greater than 0 and its less than 12, it should be false
+  //if the password length is greater than 12 then it should be true
+  const isValidLength = password.length < 12 ? true : false;
+  //uses regex to check if there is at least one uppercase letter, one number, and one special character
+  const isValidCharacters =
+    /[A-Z]/.test(password) &&
+    /[0-9]/.test(password) &&
+    /[!@#$%^&*(),.?":{}|<>]/.test(password) &&
+    password.length > 0
+      ? true
+      : false;
 
   return (
     <div className="relative w-full min-h-screen flex items-center justify-center px-4 sm:px-6 bg-gradient-to-br from-[#0f0f10] to-[#1a1a1d] text-white">
@@ -142,44 +146,52 @@ export function UserSignUp() {
           </div>
 
           <div>
-  <Label htmlFor="password" className="text-sm">
-    Password
-  </Label>
-  <div className="relative">
-    <Input
-      type={showPasswordState}
-      id="password"
-      placeholder="Enter your password"
-      className={`w-full mt-1 bg-[#2a2a2e] border border-gray-600 text-white pr-10`}
-      onChange={handlePasswordChange}
-      required
-    />
-    <button
-      type="button"
-      onClick={() =>
-        setShowPasswordState(
-          showPasswordState === "text" ? "password" : "text"
-        )
-      }
-      className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
-    >
-      {showPasswordState === "text" ? <FaEyeSlash /> : <FaEye />}
-    </button>
-  </div>
+            <Label htmlFor="password" className="text-sm">
+              Password
+            </Label>
+            <div className="relative">
+              <Input
+                type={showPasswordState}
+                id="password"
+                placeholder="Enter your password"
+                className={`w-full mt-1 bg-[#2a2a2e] border border-gray-600 text-white pr-10`}
+                onChange={handlePasswordChange}
+                required
+              />
+              <button
+                type="button"
+                onClick={() =>
+                  setShowPasswordState(
+                    showPasswordState === "text" ? "password" : "text"
+                  )
+                }
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+              >
+                {showPasswordState === "text" ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
 
-  {/* Password Rules */}
-  <ul className="list-disc list-inside mt-2 space-y-1 text-sm text-gray-300">
-    <li className={validLengthColor}>
-      Must be at least 12 characters long.
-    </li>
-    <li>
-      Must include at least one uppercase letter, contain at least one number,
-      and at least one symbol.
-    </li>
-    <li>Must not contain your name</li>
-  </ul>
-</div>
-
+            {/* Password Rules */}
+            <ul className="list-disc list-inside mt-2 text-sm text-gray-300">
+              <li>
+                Must be at least 12 characters long.{" "}
+                {isValidLength ? (
+                  <FaTimes className="text-red-500 inline-block pb-1 text-2xl" />
+                ) : (
+                  <FcCheckmark className="inline-block pb-1 text-2xl" />
+                )}
+              </li>
+              <li>
+                Must include at least one uppercase letter, contain at least one
+                number, and at least one symbol.{" "}
+                {isValidCharacters ? (
+                  <FcCheckmark className="inline-block pb-1 text-2xl" />
+                ) : (
+                  <FaTimes className="text-red-500 inline-block pb-1 text-2xl" />
+                )}
+              </li>
+            </ul>
+          </div>
 
           {/* Create Account Button */}
           <Button
