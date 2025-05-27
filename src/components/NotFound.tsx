@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 export function NotFound() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f0f10] to-[#1a1a1d] flex flex-col items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-gradient-to-br flex flex-col items-center justify-center px-6 py-12">
       {/* Giant Broken Number */}
       <div className="text-[10rem] sm:text-[12rem] font-extrabold text-blue-500 leading-none drop-shadow-md">
         404
       </div>
 
       {/* Quirky Tagline */}
-      <h2 className="text-2xl sm:text-3xl font-semibold text-gray-200 mt-4">
+      <h2 className="text-2xl sm:text-3xl font-semibold text-gray-600 mt-4">
         Uh-oh! Page got benched.
       </h2>
 
