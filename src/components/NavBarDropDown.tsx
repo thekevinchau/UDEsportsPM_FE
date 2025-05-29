@@ -5,13 +5,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { BsMailbox } from "react-icons/bs";
 import { MdTaskAlt } from "react-icons/md";
-import { IoIosInformationCircleOutline } from "react-icons/io";
 import { GoGear } from "react-icons/go";
 import { IoPeopleOutline } from "react-icons/io5";
 import { IoCreateOutline } from "react-icons/io5";
 
 
-const organizations = ["University of Delaware", "Chimp Club Esports"];
+const organizations = [
+  {
+    name: 'University of Delaware',
+    urlPath: "d93ebfd2eb",
+  },
+    {
+    name: 'University of Dayton',
+    urlPath: "d93ebfd2ec",
+  }
+];
 
 interface props {
   logout: () => void;
@@ -33,12 +41,13 @@ export default function NavBarDropDown({ logout }: props): JSX.Element {
               <li
                 key={idx}
                 className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-violet-100 transition cursor-pointer"
+                onClick={() => navigate(`/${item.urlPath}/dashboard`)}
               >
                 <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-xs text-white font-bold">
-                  {item.charAt(0)}
+                  {item.name.charAt(0)}
                 </div>
                 <span className="text-sm font-medium text-gray-700">
-                  {item}
+                  {item.name}
                 </span>
               </li>
             ))}
