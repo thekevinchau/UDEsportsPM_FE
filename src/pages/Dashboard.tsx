@@ -3,6 +3,7 @@ import NavBar from "@/components/NavBar";
 import DashNavBar from "@/components/DashNavBar";
 import { JSX, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
 import {
   ResizableHandle,
   ResizablePanel,
@@ -14,11 +15,16 @@ export default function Dashboard(): JSX.Element {
   return (
     <div className="flex flex-col h-screen bg-neutral-900 text-white">
       <DashNavBar />
+
       <div className="flex h-full">
-        <DashSideBar orgId={id} />
-        Dashboard {id}
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel minSize={3} maxSize={20} defaultSize={15}>
+            <DashSideBar orgId={id} />
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={85}>Dashboard {id}</ResizablePanel>
+        </ResizablePanelGroup>
       </div>
-      <div className="fixed bottom-0 left-0 w-full h-1 bg-red-500 z-50" />
     </div>
   );
 }

@@ -29,7 +29,7 @@ export default function DashNavBar(): JSX.Element {
   };
 
   return (
-    <div className="w-full h-14 border-b border-neutral-700 bg-neutral-800 flex items-center justify-between px-4 sm:px-6 md:px-10">
+    <div className="w-full h-14 border-b border-neutral-700 bg-neutral-800 flex items-center justify-between px-1 sm:px-2 md:px-5">
       {/* Left Side - Hamburger + Logo */}
       <div className="flex items-center gap-x-3">
         <Button variant="ghost" size="icon" className="text-white">
