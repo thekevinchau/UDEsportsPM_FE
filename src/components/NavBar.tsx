@@ -63,7 +63,7 @@ export default function NavBar(): JSX.Element {
         <div className="hidden md:flex gap-3 items-center">
           {isAuthenticated && (
             <Link
-              to="/pricing"
+              to="/dashboard"
               className="text-sm text-gray-500 font-semibold hover:opacity-60 transition pr-2"
             >
               Launch RosterU

@@ -10,12 +10,16 @@ import RegisterPage from "./pages/RegisterPage.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import store from "./redux/store.ts";
 import PricingPage from "./pages/Pricing.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
+import UserTasks from "./pages/UserTasks.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
   { path: "/login", element: <LoginPage /> },
   { path: "/register", element: <RegisterPage /> },
   { path: "/pricing", element: <PricingPage/>},
+  { path: "/:id/dashboard", element: <Dashboard/>},
+  { path: "/:id/tasks", element: <UserTasks/>},
   { path: "/*", element: <NotFound /> },
 ]);
 
