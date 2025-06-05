@@ -9,20 +9,20 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import DashMain from "@/components/DashMain";
 
 export default function Dashboard(): JSX.Element {
   const { id } = useParams();
   return (
     <div className="flex flex-col h-screen bg-neutral-900 text-white">
       <DashNavBar />
-
       <div className="flex h-full">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel minSize={3} maxSize={20} defaultSize={15}>
             <DashSideBar orgId={id} />
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel defaultSize={85}>Dashboard {id}</ResizablePanel>
+          <ResizablePanel defaultSize={85}><DashMain/></ResizablePanel>
         </ResizablePanelGroup>
       </div>
     </div>

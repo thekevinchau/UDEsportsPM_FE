@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, useEffect, useState } from "react";
 import { MdLogout } from "react-icons/md";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,24 +8,28 @@ import { MdTaskAlt } from "react-icons/md";
 import { GoGear } from "react-icons/go";
 import { IoPeopleOutline } from "react-icons/io5";
 import { IoCreateOutline } from "react-icons/io5";
-
-
-const organizations = [
-  {
-    name: 'University of Delaware',
-    urlPath: "d93ebfd2eb",
-  },
-    {
-    name: 'University of Dayton',
-    urlPath: "d93ebfd2ec",
-  }
-];
+import { OrgProfile } from "@/types/orgTypes";
+import { getAllUserOrgProfiles } from "@/api/orgService";
 
 interface props {
   logout: () => void;
 }
 
-export default function NavBarDropDown({ logout }: props): JSX.Element {
+export default function NavBarDropDown({ logout }: props){
+  const [orgProfiles, setOrgProfiles] = useState<OrgProfile[]>([]);
+  useEffect(() => {
+    const fetchOrgProfiles = async () => {
+      const result = await getAllUserOrgProfiles();
+      setOrgProfiles(result);
+    }
+    fetchOrgProfiles();
+  }, []);
+
+  const dropDownLogout = () => {
+    logout();
+    setOrgProfiles([]);
+  }
+
   const navigate = useNavigate();
   return (
     <div className="w-96 h-80 fixed top-20 right-55 rounded-2xl shadow-2xl flex overflow-hidden border border-gray-200 bg-white">
@@ -37,17 +41,17 @@ export default function NavBarDropDown({ logout }: props): JSX.Element {
             Organizations
           </h1>
           <ul className="space-y-2">
-            {organizations.map((item, idx) => (
+            {orgProfiles.map((item, idx) => (
               <li
                 key={idx}
                 className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-violet-100 transition cursor-pointer"
-                onClick={() => navigate(`/${item.urlPath}/dashboard`)}
+                onClick={() => navigate(`/${item.organization.urlPath}/dashboard`)}
               >
                 <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-xs text-white font-bold">
-                  {item.name.charAt(0)}
+                  {item.organization.name.charAt(0)}
                 </div>
                 <span className="text-sm font-medium text-gray-700">
-                  {item.name}
+                  {item.organization.name}
                 </span>
               </li>
             ))}
@@ -57,7 +61,7 @@ export default function NavBarDropDown({ logout }: props): JSX.Element {
         {/* Logout */}
         <button
           className="flex items-center gap-2 text-sm text-red-600 hover:bg-red-50 px-4 py-3 transition border-t border-gray-200 cursor-pointer"
-          onClick={logout}
+          onClick={dropDownLogout}
         >
           <MdLogout className="text-lg" />
           Log out

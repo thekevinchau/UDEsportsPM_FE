@@ -18,13 +18,13 @@ const authSlice = createSlice({
       state.user = user.email;
       state.role = "ROLE_ADMIN";
       state.isAuthenticated = true;
-      //localStorage.setItem('auth', JSON.stringify({user: user.email, role: "ROLE_ADMIN", isAuthenticated: true}))
+      localStorage.setItem('auth', JSON.stringify({user: user.email, role: "ROLE_ADMIN", isAuthenticated: true}))
     },
     logout: (state) => {
       state.user = "";
       state.role = "";
       state.isAuthenticated = false;
-      //localStorage.removeItem('auth');
+      localStorage.removeItem('token');
     },
   },
 });

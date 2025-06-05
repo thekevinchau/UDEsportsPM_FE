@@ -29,12 +29,12 @@ export default function DashSideBar({ orgId }: Props): JSX.Element {
   const [insightsOpen, setInsightsOpen] = useState<boolean>(true);
   const [insightsArrowVisible, setInsightsArrowVisible] =
     useState<boolean>(false);
-  const [workspacesOpen, setWorkspacesOpen] = useState<boolean>(false);
+  const [workspacesOpen, setWorkspacesOpen] = useState<boolean>(true);
   const [WorkspacesArrowVisible, setWorkspacesArrowVisible] =
     useState<boolean>(false);
 
   const linkStyle =
-    "flex items-center w-full p-3 hover:bg-neutral-700 hover:opacity-80 transition duration-150 rounded-xl";
+    "flex items-center w-full p-1.5 hover:bg-neutral-700 hover:opacity-80 transition duration-150 rounded-xl text-sm";
 
   return (
     <aside className="border-r border-r-neutral-700 h-full bg-neutral-800 flex flex-col">
@@ -173,16 +173,17 @@ export default function DashSideBar({ orgId }: Props): JSX.Element {
           <section className="">
             <ul className="space-y-2">
               {workspaces.map((item, idx) => (
-                <li
+                <Link
                   key={idx}
-                  className="px-1 py-2 rounded-lg cursor-pointer hover:bg-neutral-700 transition-colors duration-200 flex items-center"
+                  className={linkStyle}
+                  to={`/${orgId}/teams/323131`}
                 >
                   <Avatar className="h-7 w-7 rounded-2xl border mr-1.5">
                     <AvatarImage src="https://img.icons8.com/color/512/valorant.png" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                   {item}
-                </li>
+                </Link>
               ))}
             </ul>
           </section>
