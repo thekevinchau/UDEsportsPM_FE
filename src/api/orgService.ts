@@ -2,20 +2,6 @@ import { serverURL } from "@/config/config";
 import { OrgProfile } from "@/types/orgTypes";
 import axios from "axios";
 
-export interface Organization {
-  id: string;
-  name: string;
-  description: string;
-  type: "University" | "High School" | "Club" | "Professional" | string; // extendable
-  avatarPath: string;
-  bannerPath: string;
-  urlPath: string;
-  region: string;
-  tier: "Free" | "Starter" | "Pro" | "Elite" | string; // extendable
-  createdAt: string; // ISO timestamp
-  updatedAt: string; // ISO timestamp
-}
-
 const serverApi = axios.create({
   baseURL: serverURL,
   timeout: 5000,
@@ -38,14 +24,14 @@ serverApi.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export async function getOrg(orgId: string): Promise<Organization | string> {
-  try {
-    const response = await serverApi.get(`/organization/${orgId}`);
-    console.log(response.data);
+
+export async function getPrimaryOrgProfile(): Promise<OrgProfile | null>{
+  try{
+    const response = await serverApi.get(`/org/profiles/primary`)
     return response.data;
-  } catch (e) {
-    console.error("Login error", e);
-    return `Error occurred when trying to fetch organization ${orgId} `;
+  }catch(e){
+    console.error("Error retrieving profiles", e);
+    return null;
   }
 }
 
@@ -58,3 +44,4 @@ export async function getAllUserOrgProfiles(): Promise<OrgProfile[]> {
     return [];
   }
 }
+

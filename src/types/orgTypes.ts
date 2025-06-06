@@ -20,6 +20,7 @@ export type OrgProfile = {
     urlPath: string;
     avatarPath: string;
   };
+  fullName: string,
   role: string;
   pronouns: string;
   studentClass: string;
