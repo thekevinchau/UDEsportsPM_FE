@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, useEffect, useState } from "react";
 import { MdLogout } from "react-icons/md";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,25 +8,33 @@ import { MdTaskAlt } from "react-icons/md";
 import { GoGear } from "react-icons/go";
 import { IoPeopleOutline } from "react-icons/io5";
 import { IoCreateOutline } from "react-icons/io5";
-
-
-const organizations = [
-  {
-    name: 'University of Delaware',
-    urlPath: "d93ebfd2eb",
-  },
-    {
-    name: 'University of Dayton',
-    urlPath: "d93ebfd2ec",
-  }
-];
+import { useAppSelector } from "@/redux/hooks";
+import { setOrgProfiles } from "@/redux/orgProfileSlice";
+import { RootState } from "@/redux/store";
+import { OrgProfile } from "@/types/orgTypes";
+import { setPrimaryProfile } from "@/api/orgService";
 
 interface props {
   logout: () => void;
 }
 
-export default function NavBarDropDown({ logout }: props): JSX.Element {
+export default function NavBarDropDown({ logout }: props) {
   const navigate = useNavigate();
+  const handleOrgProfileClick = async (urlPath: string, newId: string) => {
+    navigate(`/${urlPath}/dashboard`);
+    await setPrimaryProfile(newId);
+  };
+
+  const dropDownLogout = () => {
+    logout();
+    setOrgProfiles([]);
+  };
+  const orgProfiles: OrgProfile[] = useAppSelector(
+    (state: RootState) => state.orgProfile.orgProfiles
+  );
+  const primaryProfile: OrgProfile = useAppSelector(
+    (state: RootState) => state.orgProfile.primaryOrgProfile
+  );
   return (
     <div className="w-96 h-80 fixed top-20 right-55 rounded-2xl shadow-2xl flex overflow-hidden border border-gray-200 bg-white">
       {/* Left Panel */}
@@ -37,27 +45,35 @@ export default function NavBarDropDown({ logout }: props): JSX.Element {
             Organizations
           </h1>
           <ul className="space-y-2">
-            {organizations.map((item, idx) => (
-              <li
-                key={idx}
-                className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-violet-100 transition cursor-pointer"
-                onClick={() => navigate(`/${item.urlPath}/dashboard`)}
-              >
-                <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-xs text-white font-bold">
-                  {item.name.charAt(0)}
-                </div>
-                <span className="text-sm font-medium text-gray-700">
-                  {item.name}
-                </span>
-              </li>
-            ))}
+            {orgProfiles.length > 0 &&
+              orgProfiles.map((item, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-violet-100 transition cursor-pointer"
+                  onClick={
+                    () =>
+                      handleOrgProfileClick(
+                        item.organization.urlPath,
+                        item.orgProfileId
+                      )
+                    //navigate(`/${item.organization.urlPath}/dashboard`)
+                  }
+                >
+                  <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-xs text-white font-bold">
+                    {item.organization.name.charAt(0)}
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">
+                    {item.organization.name}
+                  </span>
+                </li>
+              ))}
           </ul>
         </div>
 
         {/* Logout */}
         <button
           className="flex items-center gap-2 text-sm text-red-600 hover:bg-red-50 px-4 py-3 transition border-t border-gray-200 cursor-pointer"
-          onClick={logout}
+          onClick={dropDownLogout}
         >
           <MdLogout className="text-lg" />
           Log out
@@ -71,10 +87,19 @@ export default function NavBarDropDown({ logout }: props): JSX.Element {
           <Button className="w-11 h-11 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center cursor-pointer">
             KC
           </Button>
-          <div className="pr-5">
-            <h1 className="font-semibold">Kevin Chau</h1>
-            <p className="text-xs text-gray-500">kevinch@udel.edu</p>
-          </div>
+          {primaryProfile && primaryProfile.organization?.name ? (
+            <div className="pr-5">
+              <h1 className="font-semibold">{primaryProfile.fullName}</h1>
+              <p className="text-xs text-gray-500">
+                {primaryProfile.organization.name}
+              </p>
+            </div>
+          ) : (
+            <div className="pr-5">
+              <h2 className="font-semibold">No profile</h2>
+              <p className="text-xs text-gray-400">---</p>
+            </div>
+          )}
         </div>
 
         <div className="text-md flex-col h-1/2 justify-evenly mt-1 border-b-1 border-gray-200">

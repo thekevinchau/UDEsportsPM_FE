@@ -10,15 +10,33 @@ import {
   MdClose,
 } from "react-icons/md";
 import NavBarDropDown from "./NavBarDropDown";
+import { RootState } from "@/redux/store";
+import { getAllUserOrgProfiles, getPrimaryOrgProfile } from "@/api/orgService";
+import { setOrgProfiles, setPrimaryOrgProfile } from "@/redux/orgProfileSlice";
 
 export default function NavBar(): JSX.Element {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
-
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  const user = useAppSelector((state) => state.auth.user);
+  const primaryProfile = useAppSelector(
+    (state: RootState) => state.orgProfile.primaryOrgProfile
+  );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem('auth')) return;
+
+    const fetchOrgProfiles = async () => {
+      const result = await getAllUserOrgProfiles();
+      dispatch(setOrgProfiles(result));
+    };
+    const fetchPrimaryOrgProfile = async () => {
+      const result = await getPrimaryOrgProfile();
+      dispatch(setPrimaryOrgProfile(result));
+    };
+    fetchOrgProfiles();
+    fetchPrimaryOrgProfile();
+  }, [dispatch]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -61,9 +79,9 @@ export default function NavBar(): JSX.Element {
 
         {/* CTA Buttons - Desktop */}
         <div className="hidden md:flex gap-3 items-center">
-          {isAuthenticated && (
+          {isAuthenticated && primaryProfile?.organization && (
             <Link
-              to="/dashboard"
+              to={`/${primaryProfile.organization.urlPath}/dashboard`}
               className="text-sm text-gray-500 font-semibold hover:opacity-60 transition pr-2"
             >
               Launch RosterU
