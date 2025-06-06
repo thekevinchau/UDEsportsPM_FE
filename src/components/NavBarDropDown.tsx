@@ -82,7 +82,7 @@ export default function NavBarDropDown({ logout }: props) {
             <div className="pr-5">
               
               <h1 className="font-semibold">{primaryProfile.fullName}</h1>
-              <p className="text-xs text-gray-500">kevinch@udel.edu</p>
+              <p className="text-xs text-gray-500">{primaryProfile.organization.name}</p>
             </div>
           ) : (
             <div className="pr-5">
