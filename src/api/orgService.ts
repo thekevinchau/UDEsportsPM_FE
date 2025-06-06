@@ -45,3 +45,14 @@ export async function getAllUserOrgProfiles(): Promise<OrgProfile[]> {
   }
 }
 
+export async function setPrimaryProfile(id: string): Promise<string>{
+  try{
+    const response = await serverApi.patch('/users/primary-profile', {
+      newId: id
+    })
+    return response.data;
+  }catch(e){
+    console.error("Error: ", e)
+    return 'An error occurred setting primary org profile';
+  }
+}

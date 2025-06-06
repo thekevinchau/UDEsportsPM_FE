@@ -9,6 +9,7 @@ interface OrgProfileState {
 const initialState: OrgProfileState = {
   orgProfiles: [],
   primaryOrgProfile: {
+    orgProfileId: "",
     userId: "",
     organization: {
       orgId: "",

@@ -13,6 +13,7 @@ export type Organization = {
 }
 
 export type OrgProfile = {
+  orgProfileId: string;
   userId: string;
   organization: {
     orgId: string;
